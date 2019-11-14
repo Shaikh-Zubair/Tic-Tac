@@ -10,16 +10,16 @@ const Game = () => {
 
     const History = history.slice(0, stepNumber + 1);
     const current = History[stepNumber];
-    const winner = calculateWinner(current.squares);
+    const { message, win, finish, winMoves } = calculateWinner(current.squares);
     const turn = xIsNext ? 'X' : 'O';
-    const status = winner ? `Winner: ${winner}` : `Next player: ${turn}`;
+    const status = win ? `Winner: ${message}` : [finish ? message : `Next player: ${turn}`];
     const jumpTo = step => {
         setStepNumber(step);
         setxIsNext(step % 2 === 0);
     }
     const handleClick = (val, row, col) => {
         const squares = current.squares.slice();
-        if (winner || squares[val]) {
+        if (win || squares[val] || finish) {
             return;
         }
         squares[val] = turn;
@@ -32,7 +32,10 @@ const Game = () => {
     return (
         <div className="game">
             <div className="game-board">
-                <Board onClick={(val, row, col) => handleClick(val, row, col)} squares={current.squares} />
+                <Board
+                    onClick={(val, row, col) => handleClick(val, row, col)}
+                    winMoves={winMoves}
+                    squares={current.squares} />
             </div>
             <div className="game-info">
                 <div>{status}</div>

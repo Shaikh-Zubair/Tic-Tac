@@ -4,7 +4,7 @@ import calculateWinner from '../helpers/calculateWinner'
 import { Moves } from './moves';
 
 const Game = () => {
-    const [history, setHistory] = useState([{ squares: Array(9).fill(null) }]);
+    const [history, setHistory] = useState([{ squares: Array(9).fill(null), loc: null }]);
     const [xIsNext, setxIsNext] = useState(true);
     const [stepNumber, setStepNumber] = useState(0);
 
@@ -17,13 +17,13 @@ const Game = () => {
         setStepNumber(step);
         setxIsNext(step % 2 === 0);
     }
-    const handleClick = val => {
+    const handleClick = (val, row, col) => {
         const squares = current.squares.slice();
         if (winner || squares[val]) {
             return;
         }
         squares[val] = turn;
-        setHistory(History.concat({ squares }));
+        setHistory(History.concat({ squares, loc: { row, col } }));
         setxIsNext(!xIsNext);
         setStepNumber(History.length);
         return;
@@ -32,7 +32,7 @@ const Game = () => {
     return (
         <div className="game">
             <div className="game-board">
-                <Board onClick={val => handleClick(val)} squares={current.squares} />
+                <Board onClick={(val, row, col) => handleClick(val, row, col)} squares={current.squares} />
             </div>
             <div className="game-info">
                 <div>{status}</div>

@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Square } from './square';
 
 const Board = ({ onClick, squares, winMoves }) => {
     const [clicked, setClicked] = useState(Array(9).fill(false));
-    const [highlighted, setHighlighted] = useState(false);
 
-    if (winMoves.length > 0 && !highlighted) {
-        const clk = Array(9).fill(false);
-        winMoves.forEach(m => clk[m] = true);
-        setClicked(clk);
-        setHighlighted(true);
-    }
+    useEffect(() => {
+        if (winMoves.length > 0) {
+            const clk = Array(9).fill(false);
+            winMoves.forEach(m => clk[m] = true);
+            setClicked(clk);
+        }
+
+    }, [winMoves]);
 
     const click = (val, row, col) => {
         if (winMoves.length === 0) {
             const clk = Array(9).fill(false);
             clk[val] = true;
             setClicked(clk);
-            return onClick(val, row, col);
+            onClick(val, row, col);
         }
     }
     const renderBoardRow = (row, ...list) => list.map((val, col) => (

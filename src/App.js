@@ -1,10 +1,10 @@
-import React from 'react';
-import './App.css';
-import { Game } from './components/game';
+import React from "react";
+import "./App.css";
+import { Game } from "./components/game";
 
 function App() {
   return (
-    <div style={appStyle} >
+    <div style={appStyle}>
       <h1>React Header</h1>
       <Game />
     </div>
@@ -12,9 +12,10 @@ function App() {
 }
 
 const appStyle = {
-  display: 'flex',
-  flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
   flex: 1,
-}
+  alignItems: "center"
+};
 
 export default App;
